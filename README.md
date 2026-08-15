@@ -37,6 +37,7 @@ npm run storybook
 | `npx chromatic`           | Visual tests, needs `CHROMATIC_TOKEN`                |
 | `npm run build`           | The publishable package, into `dist`                 |
 | `npm run docs:dev`        | The docs site, locally                               |
+| `npm run deploy:pages`    | Publishes this branch's part of the Pages site       |
 
 ## How a component is defined as done
 
@@ -84,9 +85,19 @@ One GitHub Pages site, three paths, rebuilt from both branches on every push.
 | [/storybook/](https://chawsuhlaing2209.github.io/sunim-ds/storybook/)                 | Storybook, built from `main`                                    |
 | [/staging/storybook/](https://chawsuhlaing2209.github.io/sunim-ds/staging/storybook/) | Storybook, built from `staging`, which is what QA tests against |
 
-Pages replaces the whole site on every deploy, so the workflow builds both branches every time. One that built only the branch that triggered it would take the other paths down.
-
 The Storybook build uses relative asset paths, which is what lets one build serve from `/storybook/`, from `/staging/storybook/`, and from a folder on your own machine.
+
+### Deploying
+
+```bash
+npm run deploy:pages
+```
+
+Builds what the branch you are on owns, and publishes only that part of the site to the `gh-pages` branch. On `main` that is the docs and `/storybook/`. On `staging` it is `/staging/storybook/`. Everything else is left alone, so deploying one can never take the other down. A component branch refuses to deploy at all.
+
+It insists on a clean working tree, so whatever is on the site is always a commit somebody can go and read.
+
+`.github/workflows/pages.yml` does the same on every push and is the better way round. It needs GitHub Actions, which is unavailable on this account until its billing is sorted out. When it is, switch the Pages source from the `gh-pages` branch back to GitHub Actions in Settings, Pages, and the manual script stops being needed.
 
 ## Publishing
 
