@@ -17,6 +17,13 @@ const meta = {
   argTypes: {
     variant: { control: 'select', options: ['primary', 'secondary', 'ghost'] },
     size: { control: 'select', options: ['md', 'lg'] },
+    // Declared, not inferred. Storybook drops a URL arg it does not know
+    // about, and `disabled` is inherited from the HTML button props, so
+    // docgen never declares it. Without this line a screenshot of the
+    // disabled case is a screenshot of the default one, which is the kind of
+    // green tick that means nothing.
+    disabled: { control: 'boolean' },
+    loading: { control: 'boolean' },
   },
 } satisfies Meta<typeof Button>;
 
