@@ -77,7 +77,7 @@ contract.schema.json    generated from scripts/contract.mjs
 
 ## Where it is hosted
 
-One GitHub Pages site, three paths, rebuilt from both branches on every push.
+One GitHub Pages site, three paths, one built from each branch.
 
 | URL                                                                                   | What                                                            |
 | ------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
