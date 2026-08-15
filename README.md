@@ -36,6 +36,7 @@ npm run storybook
 | `npm run build-storybook` | The static Storybook, which is also the staging site |
 | `npx chromatic`           | Visual tests, needs `CHROMATIC_TOKEN`                |
 | `npm run build`           | The publishable package, into `dist`                 |
+| `npm run screenshots`     | One picture per case, driven from the contract       |
 | `npm run docs:dev`        | The docs site, locally                               |
 | `npm run deploy:pages`    | Publishes this branch's part of the Pages site       |
 

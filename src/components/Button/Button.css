@@ -1,0 +1,144 @@
+/**
+ * Every value here resolves to a token. The design's own numbers live in
+ * tokens.css, read from the Figma file, and `npm run check:tokens` fails the
+ * build if one is pasted in here instead.
+ *
+ * Md is 37 high and Lg is 47, which is what the padding and the line height
+ * add up to. Both come from the design file.
+ */
+
+.sunim-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sunim-space-2);
+
+  border: var(--sunim-border-width) solid transparent;
+  border-radius: var(--sunim-radius-pill);
+
+  font-family: var(--sunim-font-action);
+  font-weight: var(--sunim-font-weight-bold);
+  line-height: var(--sunim-line-height-action);
+  letter-spacing: var(--sunim-letter-spacing-action);
+  text-align: center;
+  white-space: nowrap;
+
+  cursor: pointer;
+  transition:
+    background-color var(--sunim-duration-fast) var(--sunim-easing),
+    border-color var(--sunim-duration-fast) var(--sunim-easing),
+    color var(--sunim-duration-fast) var(--sunim-easing),
+    box-shadow var(--sunim-duration-medium) var(--sunim-easing);
+}
+
+/* Sizes */
+
+.sunim-button--md {
+  min-height: var(--sunim-control-height-md);
+  padding: var(--sunim-space-3) var(--sunim-space-5);
+  font-size: var(--sunim-text-sm);
+}
+
+.sunim-button--lg {
+  min-height: var(--sunim-control-height-lg);
+  padding: var(--sunim-space-4) var(--sunim-space-6);
+  font-size: var(--sunim-text-lead);
+}
+
+/* Variants */
+
+.sunim-button--primary {
+  background-color: var(--sunim-accent-ink);
+  border-color: var(--sunim-accent-ink);
+  color: var(--sunim-text-on-accent);
+  box-shadow: var(--sunim-shadow-button);
+}
+
+.sunim-button--primary:hover:not(:disabled):not(.sunim-button--loading) {
+  background-color: var(--sunim-accent-ink-deep);
+  border-color: var(--sunim-accent-ink-deep);
+}
+
+.sunim-button--secondary {
+  background-color: var(--sunim-surface-card);
+  border-color: var(--sunim-line-color);
+  color: var(--sunim-accent-ink);
+}
+
+.sunim-button--secondary:hover:not(:disabled):not(.sunim-button--loading) {
+  background-color: var(--sunim-accent-soft);
+  border-color: var(--sunim-accent-soft);
+}
+
+.sunim-button--ghost {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--sunim-accent-ink);
+}
+
+.sunim-button--ghost:hover:not(:disabled):not(.sunim-button--loading) {
+  background-color: var(--sunim-accent-soft);
+}
+
+/* Focus. Keyboard only, so a mouse press does not light up a ring nobody
+   asked for, and :focus-visible is what the browser decides that means. */
+
+.sunim-button:focus {
+  outline: none;
+}
+
+.sunim-button:focus-visible {
+  outline: none;
+  box-shadow: var(--sunim-focus-ring);
+}
+
+.sunim-button--primary:focus-visible {
+  box-shadow: var(--sunim-shadow-button), var(--sunim-focus-ring);
+}
+
+/* Disabled */
+
+.sunim-button:disabled {
+  background-color: var(--sunim-disabled-surface);
+  border-color: var(--sunim-disabled-surface);
+  color: var(--sunim-disabled-text);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* Loading. The label stays put and keeps its width; the spinner is added
+   beside it rather than replacing it. */
+
+.sunim-button--loading {
+  cursor: progress;
+}
+
+.sunim-button__spinner {
+  width: var(--sunim-space-4);
+  height: var(--sunim-space-4);
+  border: var(--sunim-border-width) solid currentcolor;
+  border-top-color: transparent;
+  border-radius: var(--sunim-radius-pill);
+  animation: sunim-button-spin var(--sunim-duration-medium) linear infinite;
+}
+
+@keyframes sunim-button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* A person who has asked their machine to stop moving things gets a spinner
+   that does not spin, rather than no way of knowing the button is busy. */
+
+@media (prefers-reduced-motion: reduce) {
+  .sunim-button {
+    transition: none;
+  }
+
+  .sunim-button__spinner {
+    animation: none;
+    border-top-color: currentcolor;
+    opacity: 0.5;
+  }
+}

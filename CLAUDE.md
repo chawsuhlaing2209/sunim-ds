@@ -121,6 +121,28 @@ is built: it renders its children, the click handler fires, the disabled one
 does not fire, the accessible name is right, focus goes where it should. Do
 not assert on class names.
 
+## Screenshots, for testing
+
+```bash
+npm run screenshots -- --url http://localhost:6006 --out ./qa-run
+```
+
+One picture per case, where a case is one variant, one size, one state, taken
+from the contract rather than from a list of stories. Thirty cases for Button.
+It drives the component through Storybook's args and puts hover and focus on
+with the real browser, so a focus ring is the one a keyboard actually gets.
+
+It writes `cases.json` beside the images, in the shape QA reports in, with the
+result left out. Whether a case passed is a judgement, and the script only
+takes the pictures.
+
+Two things to know when you add a component. Any prop you want to drive from
+the URL has to be declared in `argTypes`, because Storybook silently drops an
+arg it does not know about, and a prop inherited from the HTML element is one
+it does not know about. And the script finds your component by the class
+`sunim-<contract id>`, which is why the prefix convention is a rule and not a
+preference.
+
 ## Commands
 
 ```bash
@@ -134,6 +156,7 @@ npm run storybook         # look at it, on http://localhost:6006
 npm run build-storybook   # the static build, what gets published
 npx chromatic             # visual test, needs CHROMATIC_TOKEN
 npm run build             # the publishable package, into dist
+npm run screenshots       # one picture per case, for testing
 npm run docs:dev          # the docs site
 ```
 
@@ -149,6 +172,23 @@ succeeds is not the same as a component that is right.
 A component branch ships nothing, which is why pushing it is safe and why it
 is required: a commit becomes evidence only once somebody can fetch it, and an
 unpushed commit can never be fetched.
+
+**Every pull request goes into `staging` first.** A component branch opens
+against `staging`, never against `main`, and `main` only ever takes a pull
+request from `staging`. `.github/workflows/branch-rule.yml` fails any other
+pull request into main.
+
+The reason is the whole pipeline. main is what deploys to production and what
+publishes the docs, so a component that goes straight there was never on
+staging, which means QA never tested it, which means no test rows exist, which
+means the status formula has nothing to read and the component is live having
+been checked by nobody.
+
+If you opened one at main by mistake, retarget it rather than closing it:
+
+```bash
+gh pr edit <number> --base staging
+```
 
 ## The docs page
 

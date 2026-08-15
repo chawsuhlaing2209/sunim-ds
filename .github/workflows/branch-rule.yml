@@ -1,0 +1,37 @@
+name: Branch rule
+
+# A component reaches main from staging, and from nowhere else.
+#
+# GitHub has no setting for "only accept a pull request into main from this
+# one branch", so it is a check rather than a setting. Make this check
+# required on main in Settings, Branches, and the rule stops being a thing
+# people remember and starts being a thing the repo enforces.
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, reopened, edited, synchronize]
+
+jobs:
+  base:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Only staging may open a pull request into main
+        env:
+          HEAD: ${{ github.head_ref }}
+        run: |
+          if [ "$HEAD" = "staging" ]; then
+            echo "staging -> main. That is the way in."
+            exit 0
+          fi
+
+          echo "This pull request is $HEAD -> main, and that is not allowed."
+          echo ""
+          echo "main is what ships. A component reaches it from staging, after"
+          echo "it has been tested there, behind the human gate. Going straight"
+          echo "to main means QA never saw it, no test rows exist, and the"
+          echo "status formula has nothing to read."
+          echo ""
+          echo "Retarget this pull request at staging:"
+          echo "  gh pr edit <number> --base staging"
+          exit 1
