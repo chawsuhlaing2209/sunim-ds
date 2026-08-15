@@ -1,0 +1,5 @@
+dist
+storybook-static
+docs/dist
+docs/.astro
+package-lock.json

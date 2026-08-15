@@ -1,0 +1,33 @@
+---
+title: Sunim DS
+description: A demo design system, built one component at a time.
+---
+
+A small React component library, built to find out whether a crew of agents can take a component from a design file to a published package without anybody moving a status by hand.
+
+## Installing
+
+```bash
+npm install sunim-ds
+```
+
+Load the tokens first, then the component styles. The tokens are separate so you can override them without touching anything else.
+
+```ts
+import 'sunim-ds/tokens.css';
+import 'sunim-ds/styles.css';
+```
+
+## Theme
+
+Every colour resolves to a semantic token. The library follows the reader's own light or dark setting, and one attribute on the root element overrides it.
+
+```html
+<html data-sunim-theme="dark"></html>
+```
+
+## Components
+
+Nothing here yet. Each component gets a page under Components as it is built, with a live example, its full props table, every variant and state, its accessibility notes, the tokens it resolves to, and a changelog.
+
+A page is only listed once the component behind it is in the library. There are no pages for components that do not exist.

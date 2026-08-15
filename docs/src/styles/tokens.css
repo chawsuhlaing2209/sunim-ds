@@ -1,0 +1,4 @@
+/* The library's own tokens, so a live example on the docs site looks exactly
+   like the component does in Storybook and in a consuming app. One source,
+   imported, never copied. */
+@import '../../../src/tokens/tokens.css';

@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/chawsuhlaing2209/sunim-ds/contract.schema.json",
+  "title": "Sunim DS component contract",
+  "description": "Ships beside every component. Read by the person building it, by the agent building it, and by the crew that checks it.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "props": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {}
+    },
+    "variants": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "sizes": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "states": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "tokens": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "a11y": {
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "focusOrder": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contrast": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": ["role", "focusOrder", "contrast"],
+      "additionalProperties": false
+    },
+    "usage": {
+      "type": "object",
+      "properties": {
+        "whenToUse": {
+          "type": "string",
+          "minLength": 1
+        },
+        "whenNot": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": ["whenToUse", "whenNot"],
+      "additionalProperties": false
+    },
+    "storybookId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "astroDocsUrl": {
+      "type": "string",
+      "pattern": "^https?:\\/\\/\\S+$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "props",
+    "variants",
+    "sizes",
+    "states",
+    "tokens",
+    "a11y",
+    "usage",
+    "storybookId",
+    "astroDocsUrl",
+    "version"
+  ],
+  "additionalProperties": false
+}

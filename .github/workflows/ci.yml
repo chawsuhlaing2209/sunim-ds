@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      # The two that have a yes or no answer and no opinion. First, because
+      # a component that fails either is not finished, whatever else passes.
+      - name: Every value resolves to a token
+        run: npm run check:tokens
+
+      - name: Every component contract validates
+        run: npm run check:contracts
+
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run format:check
+      - run: npm test
+      - run: npm run build
+      - run: npm run build-storybook
+      - run: npm run docs:build

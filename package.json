@@ -1,0 +1,76 @@
+{
+  "name": "sunim-ds",
+  "version": "0.0.0",
+  "description": "A demo design system, built one component at a time by the Sunim Crew.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "workspaces": [
+    "docs"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./styles.css": "./dist/index.css",
+    "./tokens.css": "./dist/tokens.css"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup && tsc -p tsconfig.build.json && cp src/tokens/tokens.css dist/tokens.css && { [ -f dist/index.css ] || printf '/* No component styles yet. Every component imports its own, and the build collects them here. */\\n' > dist/index.css; }",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check:contracts": "node scripts/check-contracts.mjs",
+    "check:tokens": "node scripts/check-tokens.mjs",
+    "contract:schema": "node scripts/contract-schema.mjs",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "chromatic": "chromatic --exit-zero-on-changes",
+    "docs:dev": "npm run dev --workspace docs",
+    "docs:build": "npm run build --workspace docs"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@storybook/addon-a11y": "^10.5.8",
+    "@storybook/react-vite": "^10.5.8",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.4",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "chromatic": "^18.2.0",
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.11.0",
+    "jsdom": "^27.0.1",
+    "prettier": "^3.9.6",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "storybook": "^10.5.8",
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.67.0",
+    "vite": "^7.3.6",
+    "vitest": "^3.2.7",
+    "zod": "^4.4.3"
+  }
+}

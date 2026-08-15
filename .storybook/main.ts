@@ -1,0 +1,17 @@
+import type { StorybookConfig } from '@storybook/react-vite';
+
+const config: StorybookConfig = {
+  stories: ['../src/**/*.stories.@(ts|tsx)'],
+  addons: ['@storybook/addon-a11y'],
+  framework: {
+    name: '@storybook/react-vite',
+    options: {},
+  },
+  typescript: {
+    // The props table is generated from the types, so the table and the
+    // component cannot describe different things.
+    reactDocgen: 'react-docgen-typescript',
+  },
+};
+
+export default config;

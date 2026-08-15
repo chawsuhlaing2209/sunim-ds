@@ -1,0 +1,22 @@
+# Build output
+dist/
+storybook-static/
+docs/dist/
+docs/.astro/
+*.tsbuildinfo
+
+# Dependencies
+node_modules/
+
+# Secrets. Chromatic and npm tokens live in the environment, never in a file.
+.env
+.env.*
+.npmrc
+*.pem
+*.key
+
+# Editor and OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
