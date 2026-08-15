@@ -74,6 +74,20 @@ docs/                   the Astro Starlight site
 contract.schema.json    generated from scripts/contract.mjs
 ```
 
+## Where it is hosted
+
+One GitHub Pages site, three paths, rebuilt from both branches on every push.
+
+| URL                                                                                   | What                                                            |
+| ------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| [chawsuhlaing2209.github.io/sunim-ds](https://chawsuhlaing2209.github.io/sunim-ds/)   | The docs, built from `main`                                     |
+| [/storybook/](https://chawsuhlaing2209.github.io/sunim-ds/storybook/)                 | Storybook, built from `main`                                    |
+| [/staging/storybook/](https://chawsuhlaing2209.github.io/sunim-ds/staging/storybook/) | Storybook, built from `staging`, which is what QA tests against |
+
+Pages replaces the whole site on every deploy, so the workflow builds both branches every time. One that built only the branch that triggered it would take the other paths down.
+
+The Storybook build uses relative asset paths, which is what lets one build serve from `/storybook/`, from `/staging/storybook/`, and from a folder on your own machine.
+
 ## Publishing
 
 `npm run build` produces `dist`, and `files` limits the package to it. Publishing is deliberately not automated here: the crew does it, once a named person has approved, and nothing else holds the token.

@@ -12,6 +12,11 @@ const config: StorybookConfig = {
     // component cannot describe different things.
     reactDocgen: 'react-docgen-typescript',
   },
+
+  // Relative asset paths, so one build works wherever it is served from:
+  // /storybook/ for the published one, /staging/storybook/ for the one QA
+  // tests against, and / when somebody opens the folder locally.
+  viteFinal: (config) => ({ ...config, base: './' }),
 };
 
 export default config;

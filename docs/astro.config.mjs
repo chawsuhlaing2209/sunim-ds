@@ -12,7 +12,11 @@ import { defineConfig } from 'astro/config';
  * build, and the docs never have to wait on `npm run build` to be correct.
  */
 export default defineConfig({
-  site: 'https://sunim-ds.example.com',
+  // GitHub Pages serves this repo from a subpath, not from the root of the
+  // domain. Starlight builds every internal link from these two, so getting
+  // them wrong shows up as a site where nothing but the first page loads.
+  site: 'https://chawsuhlaing2209.github.io',
+  base: '/sunim-ds',
   integrations: [
     react(),
     starlight({

@@ -1,0 +1,86 @@
+name: Pages
+
+on:
+  push:
+    branches: [main, staging]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deploy at a time, and never cancel one halfway. A cancelled deploy
+# leaves the site as whatever the last finished one published, which is fine,
+# but two racing deploys can publish a site that is half of each.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Both branches, every time. GitHub Pages replaces the whole site on
+      # each deploy, so a workflow that built only the branch it was triggered
+      # by would delete the other one's pages. Rebuilding both is slower and
+      # is the only way the three paths stay up together.
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main
+
+      - name: Check out staging
+        uses: actions/checkout@v4
+        with:
+          ref: staging
+          path: staging
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install and build, from main
+        working-directory: main
+        run: |
+          npm ci
+          npm run build
+          npm run docs:build
+          npm run build-storybook
+
+      - name: Install and build the staging Storybook
+        working-directory: staging
+        run: |
+          npm ci
+          npm run build
+          npm run build-storybook
+
+      # / is the docs, /storybook/ is what shipped, /staging/storybook/ is
+      # what QA tests against. Each one is a URL that answers on its own,
+      # which is what makes it usable as evidence.
+      - name: Lay out the site
+        run: |
+          mkdir -p site
+          cp -r main/docs/dist/. site/
+          mkdir -p site/storybook
+          cp -r main/storybook-static/. site/storybook/
+          mkdir -p site/staging/storybook
+          cp -r staging/storybook-static/. site/staging/storybook/
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
