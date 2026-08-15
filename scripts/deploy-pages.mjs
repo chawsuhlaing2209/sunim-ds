@@ -31,11 +31,14 @@ const WORKTREE = join(ROOT, '.pages-worktree');
 const BRANCH = 'gh-pages';
 
 function git(args, options = {}) {
-  return execFileSync('git', args, {
+  // execFileSync hands back null rather than a string when the output is not
+  // being captured, so this cannot go straight to trim().
+  const out = execFileSync('git', args, {
     cwd: ROOT,
     encoding: 'utf8',
     ...options,
-  }).trim();
+  });
+  return typeof out === 'string' ? out.trim() : '';
 }
 
 function run(command) {
@@ -82,9 +85,7 @@ function main() {
 
   const exists = git(['ls-remote', '--heads', 'origin', BRANCH]) !== '';
   if (exists) {
-    git(['fetch', '-q', 'origin', `${BRANCH}:${BRANCH}`], {
-      stdio: 'ignore',
-    });
+    git(['fetch', '-q', 'origin', `+${BRANCH}:${BRANCH}`]);
     git(['worktree', 'add', '-q', WORKTREE, BRANCH]);
   } else {
     git(['worktree', 'add', '-q', '--orphan', '-b', BRANCH, WORKTREE]);
