@@ -9,32 +9,24 @@
  * one has a name the other does not.
  */
 export const TOKENS = [
-  'surface',
-  'surface-raised',
-  'surface-sunken',
-  'border',
-  'border-strong',
+  'accent-ink',
+  'accent-ink-deep',
+  'accent-soft',
+  'surface-card',
+  'line-color',
+  'text-on-accent',
 
   'text-heading',
   'text-body',
   'text-muted',
-  'text-on-accent',
-
-  'accent',
-  'accent-hover',
-  'accent-pressed',
-  'accent-subtle',
-
-  'danger',
-  'danger-hover',
-  'success',
 
   'disabled-surface',
   'disabled-text',
 
-  'focus-ring',
+  'focus-ring-color',
   'focus-ring-width',
-  'focus-ring-offset',
+  'focus-ring',
+  'shadow-button',
 
   'space-1',
   'space-2',
@@ -44,30 +36,24 @@ export const TOKENS = [
   'space-6',
   'space-7',
 
+  'control-height-md',
+  'control-height-lg',
+
   'radius-sm',
   'radius-md',
-  'radius-lg',
-  'radius-full',
+  'radius-pill',
 
-  'font-sans',
-  'font-mono',
-  'font-size-sm',
-  'font-size-md',
-  'font-size-lg',
-  'font-size-xl',
-  'font-weight-regular',
-  'font-weight-medium',
+  'font-action',
+  'text-sm',
+  'text-lead',
   'font-weight-bold',
-  'line-height-tight',
-  'line-height-body',
+  'line-height-action',
+  'letter-spacing-action',
 
   'border-width',
   'duration-fast',
   'duration-medium',
   'easing',
-
-  'shadow-sm',
-  'shadow-md',
 ] as const;
 
 export type TokenName = (typeof TOKENS)[number];

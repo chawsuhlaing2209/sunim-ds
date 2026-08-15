@@ -2,7 +2,14 @@ import { readdir, readFile } from 'node:fs/promises';
 import { extname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const SRC = fileURLToPath(new URL('../src', import.meta.url));
+const ROOT = fileURLToPath(new URL('..', import.meta.url));
+const SRC = join(ROOT, 'src');
+/**
+ * The Storybook config is scanned too. It reaches for tokens like any other
+ * file, and a name that no longer exists there shows up as a page with no
+ * background rather than as an error, which is the worst way to find out.
+ */
+const SCANNED = [SRC, join(ROOT, '.storybook')];
 const TOKENS_CSS = join(SRC, 'tokens', 'tokens.css');
 const TOKENS_TS = join(SRC, 'tokens', 'tokens.ts');
 
@@ -70,11 +77,12 @@ async function main() {
     }
   }
 
-  // Every token a component reaches for has to exist.
-  for (const file of await files(SRC)) {
+  // Every token anything reaches for has to exist.
+  const scanned = (await Promise.all(SCANNED.map((dir) => files(dir)))).flat();
+  for (const file of scanned) {
     if (ALLOWED_IN.has(file)) continue;
     const text = await readFile(file, 'utf8');
-    const where = file.slice(SRC.length + 1);
+    const where = file.slice(ROOT.length);
 
     for (const hit of text.matchAll(/var\(\s*--sunim-([a-z0-9-]+)/g)) {
       if (!defined.has(hit[1])) {
