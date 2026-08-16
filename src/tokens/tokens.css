@@ -30,6 +30,11 @@
   --sunim-accent-soft: #e2f2fd;
   --sunim-surface-card: #ffffff;
   --sunim-line-color: #e0ebf5;
+  /* The boundary of a control somebody has to be able to find. --line-color
+     is right for a divider, which nobody has to find, and measures 1.21:1
+     against the page. WCAG 1.4.11 wants 3:1. This is 3.47:1 against the page
+     and 3.03:1 against the secondary button's own hover fill. */
+  --sunim-line-strong: #5f8fb2;
   --sunim-text-on-accent: #ffffff;
 
   /* Text, derived from the same palette */
@@ -99,6 +104,7 @@
     --sunim-accent-soft: #10293a;
     --sunim-surface-card: #0e1a24;
     --sunim-line-color: #24404f;
+    --sunim-line-strong: #5b86a4;
     --sunim-text-on-accent: #06131c;
 
     --sunim-text-heading: #eef6fb;
@@ -118,6 +124,7 @@
   --sunim-accent-soft: #10293a;
   --sunim-surface-card: #0e1a24;
   --sunim-line-color: #24404f;
+  --sunim-line-strong: #5b86a4;
   --sunim-text-on-accent: #06131c;
 
   --sunim-text-heading: #eef6fb;
