@@ -70,6 +70,11 @@
   --sunim-control-height-md: 37px;
   --sunim-control-height-lg: 47px;
 
+  /* An icon inside a control. Sixteen at both sizes: the design grows the
+     label from md to lg and leaves the icon where it is. No named variable in
+     the design file yet, so this is its value. */
+  --sunim-icon-size: 16px;
+
   /* Radius */
   --sunim-radius-sm: 4px;
   --sunim-radius-md: 8px;

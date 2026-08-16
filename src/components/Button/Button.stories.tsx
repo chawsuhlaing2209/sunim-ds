@@ -2,6 +2,21 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Button } from './Button.js';
 
 /**
+ * Stands in for the Icon Slot in the design file. Drawn with currentcolor so
+ * it takes the label's colour on every variant. The library ships no icons of
+ * its own, so this belongs to the stories rather than to the component.
+ */
+const ArrowRight = () => (
+  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path
+      d="M3 8h10M9 4l4 4-4 4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+/**
  * One story per thing the design shows. The contract lists three variants,
  * two sizes and five states, and QA owes one test case per combination, so a
  * state with no story here is a state nobody ever looked at.
@@ -24,6 +39,13 @@ const meta = {
     // green tick that means nothing.
     disabled: { control: 'boolean' },
     loading: { control: 'boolean' },
+    // A node cannot travel in a URL, and the screenshots are driven by URL
+    // args. Mapping a boolean onto a real icon keeps this case drivable the
+    // same way every other case is, instead of needing its own machinery.
+    trailingIcon: {
+      control: 'boolean',
+      mapping: { true: <ArrowRight />, false: undefined },
+    },
   },
 } satisfies Meta<typeof Button>;
 
@@ -132,4 +154,30 @@ export const EveryVariant: Story = {
       ))}
     </div>
   ),
+};
+
+/* Trailing icon.
+
+   The design shows this as two properties, Show trailing and Icon, and
+   defaults the switch to on so the slot is visible while designing. Here the
+   absence of an icon is the off position, so there is one prop and the
+   default is no icon.
+
+   The icon is decoration: the label already names the button, so it is hidden
+   from screen readers. */
+
+export const PrimaryTrailingIcon: Story = {
+  args: { variant: 'primary', size: 'md', trailingIcon: <ArrowRight /> },
+};
+
+export const SecondaryTrailingIcon: Story = {
+  args: { variant: 'secondary', size: 'md', trailingIcon: <ArrowRight /> },
+};
+
+export const GhostTrailingIcon: Story = {
+  args: { variant: 'ghost', size: 'md', trailingIcon: <ArrowRight /> },
+};
+
+export const TrailingIconLarge: Story = {
+  args: { variant: 'primary', size: 'lg', trailingIcon: <ArrowRight /> },
 };
