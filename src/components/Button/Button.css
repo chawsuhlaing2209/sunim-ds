@@ -61,13 +61,15 @@
 
 .sunim-button--secondary {
   background-color: var(--sunim-surface-card);
-  border-color: var(--sunim-line-color);
+  border-color: var(--sunim-line-strong);
   color: var(--sunim-accent-ink);
 }
 
 .sunim-button--secondary:hover:not(:disabled):not(.sunim-button--loading) {
   background-color: var(--sunim-accent-soft);
-  border-color: var(--sunim-accent-soft);
+  /* The border stays. Fading it into the fill on hover is what put the
+     boundary back below 3:1 in the first place. */
+  border-color: var(--sunim-line-strong);
 }
 
 .sunim-button--ghost {

@@ -14,6 +14,7 @@ export const TOKENS = [
   'accent-soft',
   'surface-card',
   'line-color',
+  'line-strong',
   'text-on-accent',
 
   'text-heading',
