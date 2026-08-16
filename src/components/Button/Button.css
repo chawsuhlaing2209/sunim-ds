@@ -33,14 +33,19 @@
 
 /* Sizes */
 
+/* Fixed, not a minimum. The design's frames are 37 and 47 exactly, and a
+   trailing icon is 16 square, which is taller than the md label and would
+   push a minimum height to 38. The label never wraps, so there is nothing
+   for a growing box to be useful for. */
+
 .sunim-button--md {
-  min-height: var(--sunim-control-height-md);
+  height: var(--sunim-control-height-md);
   padding: var(--sunim-space-3) var(--sunim-space-5);
   font-size: var(--sunim-text-sm);
 }
 
 .sunim-button--lg {
-  min-height: var(--sunim-control-height-lg);
+  height: var(--sunim-control-height-lg);
   padding: var(--sunim-space-4) var(--sunim-space-6);
   font-size: var(--sunim-text-lead);
 }
@@ -128,6 +133,29 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* The trailing slot. Sixteen square at both sizes, which is what the design
+   says: the label grows from md to lg and the icon does not.
+
+   It takes its colour from the label so an icon drawn with currentcolor is
+   legible on every variant without the caller being told to think about it.
+   The gap to the label is the button's own gap, so there is one number. */
+
+.sunim-button__trailing {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--sunim-icon-size);
+  height: var(--sunim-icon-size);
+  color: currentcolor;
+}
+
+.sunim-button__trailing > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 /* A person who has asked their machine to stop moving things gets a spinner

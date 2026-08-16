@@ -39,6 +39,7 @@ export const TOKENS = [
 
   'control-height-md',
   'control-height-lg',
+  'icon-size',
 
   'radius-sm',
   'radius-md',

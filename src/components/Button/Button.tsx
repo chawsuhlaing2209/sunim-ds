@@ -20,6 +20,17 @@ export interface ButtonProps extends Omit<
    * keeps the name it already read out.
    */
   loading?: boolean;
+  /**
+   * Something small after the label, 16px square.
+   *
+   * The design says this with two properties, a switch and a slot, because a
+   * design tool has no way to say a slot is optional. Here, leaving it out is
+   * the off position, so it is one prop.
+   *
+   * It is hidden from screen readers. The label already names the button, and
+   * an arrow read out after it says nothing a person needs.
+   */
+  trailingIcon?: ReactNode;
 }
 
 /**
@@ -38,6 +49,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       size = 'md',
       loading = false,
       disabled = false,
+      trailingIcon,
       className,
       type = 'button',
       ...rest
@@ -72,6 +84,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           <span className="sunim-button__spinner" aria-hidden="true" />
         ) : null}
         <span className="sunim-button__label">{children}</span>
+        {trailingIcon === undefined ? null : (
+          <span className="sunim-button__trailing" aria-hidden="true">
+            {trailingIcon}
+          </span>
+        )}
       </button>
     );
   },
