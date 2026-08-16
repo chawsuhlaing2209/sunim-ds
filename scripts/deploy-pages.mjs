@@ -30,6 +30,17 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const WORKTREE = join(ROOT, '.pages-worktree');
 const BRANCH = 'gh-pages';
 
+/**
+ * Every directory this deploy owns, so the stamp sits beside the thing it
+ * describes. A checker points at a URL, not at a branch, and the docs and the
+ * Storybook are two different URLs.
+ */
+function stampDirs(branch) {
+  return branch === 'main'
+    ? [WORKTREE, join(WORKTREE, 'storybook')]
+    : [join(WORKTREE, 'staging', 'storybook')];
+}
+
 function git(args, options = {}) {
   // execFileSync hands back null rather than a string when the output is not
   // being captured, so this cannot go straight to trim().
@@ -113,6 +124,33 @@ function main() {
   writeFileSync(join(WORKTREE, '.nojekyll'), '', 'utf8');
 
   const sha = git(['rev-parse', '--short', 'HEAD']);
+
+  // Say which build this is, next to the build.
+  //
+  // Without it a preview is unfalsifiable: it answers 200 whether it is
+  // today's build or last week's, and the only way to tell is for somebody to
+  // open it and count. That has already cost a cycle here. A pull request was
+  // merged, the branch was correct, the link was live, and the site was
+  // quietly serving the build from before the merge. A merge changes a
+  // branch. It does not change a site.
+  //
+  // QA reads this before it tests anything and refuses to photograph a
+  // preview that is older than the commit it is meant to be testing.
+  const stamp = `${JSON.stringify(
+    {
+      commit: git(['rev-parse', 'HEAD']),
+      shortCommit: sha,
+      branch,
+      builtAt: new Date().toISOString(),
+    },
+    null,
+    2,
+  )}\n`;
+
+  for (const dir of stampDirs(branch)) {
+    mkdirSync(dir, { recursive: true });
+    writeFileSync(join(dir, 'build-info.json'), stamp, 'utf8');
+  }
   git(['add', '-A'], { cwd: WORKTREE });
 
   const staged = git(['status', '--porcelain'], { cwd: WORKTREE });
