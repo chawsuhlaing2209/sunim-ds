@@ -3,146 +3,141 @@
  * raw colour or a raw length. Every component resolves to a name from here,
  * and `npm run check:tokens` fails the build when one does not.
  *
- * Semantic, not literal: a component asks for `--sunim-accent`, never for
- * `--sunim-blue-600`. Rethemeing is then a change in this file and nowhere
- * else, which is the entire reason a design system has tokens at all.
+ * The values come from the Figma file, read through the Dev Mode MCP server,
+ * not from taste. Where Figma names a variable, the name here is that name
+ * with a sunim- prefix, so the two can be compared side by side:
+ *
+ *   --accent-ink       ->  --sunim-accent-ink
+ *   --accent-ink-deep  ->  --sunim-accent-ink-deep
+ *   --accent-soft      ->  --sunim-accent-soft
+ *   --surface-card     ->  --sunim-surface-card
+ *   --line-color       ->  --sunim-line-color
+ *   --text-on-accent   ->  --sunim-text-on-accent
+ *   --text-sm          ->  --sunim-text-sm
+ *   --text-lead        ->  --sunim-text-lead
+ *   --radius-pill      ->  --sunim-radius-pill
+ *   --space-2          ->  --sunim-space-2
+ *
+ * The spacing steps other than space-2 have no named variable in Figma yet.
+ * They are the numbers the design actually uses, kept on a scale here rather
+ * than pasted into a component, which is the one place they would rot.
  */
 
 :root {
-  /* Colour, light */
-  --sunim-surface: #ffffff;
-  --sunim-surface-raised: #f6f7f9;
-  --sunim-surface-sunken: #eceef2;
-  --sunim-border: #d7dae0;
-  --sunim-border-strong: #a9aeb8;
-
-  --sunim-text-heading: #101319;
-  --sunim-text-body: #333945;
-  --sunim-text-muted: #6b717e;
+  /* Colour, from the design file */
+  --sunim-accent-ink: #1a78bd;
+  --sunim-accent-ink-deep: #14639b;
+  --sunim-accent-soft: #e2f2fd;
+  --sunim-surface-card: #ffffff;
+  --sunim-line-color: #e0ebf5;
+  /* The boundary of a control somebody has to be able to find. --line-color
+     is right for a divider, which nobody has to find, and measures 1.21:1
+     against the page. WCAG 1.4.11 wants 3:1. This is 3.47:1 against the page
+     and 3.03:1 against the secondary button's own hover fill. */
+  --sunim-line-strong: #5f8fb2;
   --sunim-text-on-accent: #ffffff;
 
-  --sunim-accent: #2f5bd8;
-  --sunim-accent-hover: #2749b0;
-  --sunim-accent-pressed: #1d3888;
-  --sunim-accent-subtle: #e8eefc;
+  /* Text, derived from the same palette */
+  --sunim-text-heading: #0f2a3d;
+  --sunim-text-body: #1f3d52;
+  --sunim-text-muted: #5c7c92;
 
-  --sunim-danger: #b3261e;
-  --sunim-danger-hover: #8f1e18;
-  --sunim-success: #1c6b45;
+  /* A disabled control keeps its shape and loses its pull */
+  --sunim-disabled-surface: #eef4f9;
+  --sunim-disabled-text: #9bb2c4;
 
-  --sunim-disabled-surface: #eceef2;
-  --sunim-disabled-text: #9aa0ab;
+  /* Focus, an effect in Figma: 0 0 0 3 of #2BA4EC at 40% */
+  --sunim-focus-ring-color: #2ba4ec66;
+  --sunim-focus-ring-width: 3px;
+  --sunim-focus-ring: 0 0 0 var(--sunim-focus-ring-width)
+    var(--sunim-focus-ring-color);
 
-  --sunim-focus-ring: #2f5bd8;
-  --sunim-focus-ring-width: 2px;
-  --sunim-focus-ring-offset: 2px;
+  /* Elevation, an effect in Figma: 0 16 30 -12 of #166FB2 at 70% */
+  --sunim-shadow-button: 0 16px 30px -12px #166fb2b2;
 
-  /* Space, a 4px scale */
-  --sunim-space-1: 0.25rem;
-  --sunim-space-2: 0.5rem;
-  --sunim-space-3: 0.75rem;
-  --sunim-space-4: 1rem;
-  --sunim-space-5: 1.5rem;
-  --sunim-space-6: 2rem;
-  --sunim-space-7: 3rem;
+  /* Space. Only space-2 is named in the design file; the rest are its values. */
+  --sunim-space-1: 4px;
+  --sunim-space-2: 8px;
+  --sunim-space-3: 10px;
+  --sunim-space-4: 14px;
+  --sunim-space-5: 18px;
+  --sunim-space-6: 26px;
+  --sunim-space-7: 32px;
+
+  /* Control heights, straight off the Figma frame: Md is 37, Lg is 47.
+     Stated rather than left to line height arithmetic, which lands 1.5px
+     short and drifts again the moment somebody changes the typeface. */
+  --sunim-control-height-md: 37px;
+  --sunim-control-height-lg: 47px;
+
+  /* An icon inside a control. Sixteen at both sizes: the design grows the
+     label from md to lg and leaves the icon where it is. No named variable in
+     the design file yet, so this is its value. */
+  --sunim-icon-size: 16px;
 
   /* Radius */
-  --sunim-radius-sm: 0.25rem;
-  --sunim-radius-md: 0.5rem;
-  --sunim-radius-lg: 0.75rem;
-  --sunim-radius-full: 9999px;
+  --sunim-radius-sm: 4px;
+  --sunim-radius-md: 8px;
+  --sunim-radius-pill: 999px;
 
   /* Type */
-  --sunim-font-sans:
-    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --sunim-font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
-
-  --sunim-font-size-sm: 0.875rem;
-  --sunim-font-size-md: 1rem;
-  --sunim-font-size-lg: 1.125rem;
-  --sunim-font-size-xl: 1.5rem;
-
-  --sunim-font-weight-regular: 400;
-  --sunim-font-weight-medium: 500;
+  --sunim-font-action:
+    'Schibsted Grotesk', ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
+    Roboto, sans-serif;
+  --sunim-text-sm: 13.5px;
+  --sunim-text-lead: 15.5px;
   --sunim-font-weight-bold: 700;
-
-  --sunim-line-height-tight: 1.2;
-  --sunim-line-height-body: 1.5;
+  --sunim-line-height-action: 1;
+  --sunim-letter-spacing-action: 0;
 
   /* Border and motion */
   --sunim-border-width: 1px;
   --sunim-duration-fast: 120ms;
   --sunim-duration-medium: 200ms;
   --sunim-easing: cubic-bezier(0.2, 0, 0.2, 1);
-
-  /* Elevation */
-  --sunim-shadow-sm: 0 1px 2px rgb(16 19 25 / 8%);
-  --sunim-shadow-md: 0 4px 12px rgb(16 19 25 / 12%);
 }
 
 /**
- * Dark, by the viewer's own setting. The names do not change, so a component
- * written against them themes for free and nothing here needs a component to
- * know it happened.
+ * Dark, by the viewer's own setting. The design file has no dark variables
+ * yet, so these are derived from the same hues rather than read from it, and
+ * that is worth knowing before anybody ships a dark theme on them.
  */
 @media (prefers-color-scheme: dark) {
   :root:not([data-sunim-theme='light']) {
-    --sunim-surface: #12151b;
-    --sunim-surface-raised: #1a1e26;
-    --sunim-surface-sunken: #0c0e13;
-    --sunim-border: #2c313b;
-    --sunim-border-strong: #4a505c;
+    --sunim-accent-ink: #4aa3e0;
+    --sunim-accent-ink-deep: #6cb8ea;
+    --sunim-accent-soft: #10293a;
+    --sunim-surface-card: #0e1a24;
+    --sunim-line-color: #24404f;
+    --sunim-line-strong: #5b86a4;
+    --sunim-text-on-accent: #06131c;
 
-    --sunim-text-heading: #f4f6f9;
-    --sunim-text-body: #d3d7de;
-    --sunim-text-muted: #969ca8;
-    --sunim-text-on-accent: #ffffff;
+    --sunim-text-heading: #eef6fb;
+    --sunim-text-body: #cfe0ea;
+    --sunim-text-muted: #8aa5b6;
 
-    --sunim-accent: #6b90ec;
-    --sunim-accent-hover: #85a4f1;
-    --sunim-accent-pressed: #9db7f5;
-    --sunim-accent-subtle: #1b2438;
+    --sunim-disabled-surface: #16242e;
+    --sunim-disabled-text: #5d7383;
 
-    --sunim-danger: #e8776f;
-    --sunim-danger-hover: #ef938c;
-    --sunim-success: #5fbc8e;
-
-    --sunim-disabled-surface: #1a1e26;
-    --sunim-disabled-text: #626875;
-
-    --sunim-focus-ring: #6b90ec;
-
-    --sunim-shadow-sm: 0 1px 2px rgb(0 0 0 / 40%);
-    --sunim-shadow-md: 0 4px 12px rgb(0 0 0 / 50%);
+    --sunim-shadow-button: 0 16px 30px -12px #00000099;
   }
 }
 
 :root[data-sunim-theme='dark'] {
-  --sunim-surface: #12151b;
-  --sunim-surface-raised: #1a1e26;
-  --sunim-surface-sunken: #0c0e13;
-  --sunim-border: #2c313b;
-  --sunim-border-strong: #4a505c;
+  --sunim-accent-ink: #4aa3e0;
+  --sunim-accent-ink-deep: #6cb8ea;
+  --sunim-accent-soft: #10293a;
+  --sunim-surface-card: #0e1a24;
+  --sunim-line-color: #24404f;
+  --sunim-line-strong: #5b86a4;
+  --sunim-text-on-accent: #06131c;
 
-  --sunim-text-heading: #f4f6f9;
-  --sunim-text-body: #d3d7de;
-  --sunim-text-muted: #969ca8;
-  --sunim-text-on-accent: #ffffff;
+  --sunim-text-heading: #eef6fb;
+  --sunim-text-body: #cfe0ea;
+  --sunim-text-muted: #8aa5b6;
 
-  --sunim-accent: #6b90ec;
-  --sunim-accent-hover: #85a4f1;
-  --sunim-accent-pressed: #9db7f5;
-  --sunim-accent-subtle: #1b2438;
+  --sunim-disabled-surface: #16242e;
+  --sunim-disabled-text: #5d7383;
 
-  --sunim-danger: #e8776f;
-  --sunim-danger-hover: #ef938c;
-  --sunim-success: #5fbc8e;
-
-  --sunim-disabled-surface: #1a1e26;
-  --sunim-disabled-text: #626875;
-
-  --sunim-focus-ring: #6b90ec;
-
-  --sunim-shadow-sm: 0 1px 2px rgb(0 0 0 / 40%);
-  --sunim-shadow-md: 0 4px 12px rgb(0 0 0 / 50%);
+  --sunim-shadow-button: 0 16px 30px -12px #00000099;
 }

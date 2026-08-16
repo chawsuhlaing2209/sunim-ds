@@ -39,9 +39,9 @@ const preview: Preview = {
       document.documentElement.dataset.sunimTheme = String(
         context.globals.theme ?? 'light',
       );
-      document.body.style.background = 'var(--sunim-surface)';
+      document.body.style.background = 'var(--sunim-surface-card)';
       document.body.style.color = 'var(--sunim-text-body)';
-      document.body.style.fontFamily = 'var(--sunim-font-sans)';
+      document.body.style.fontFamily = 'var(--sunim-font-action)';
       return Story();
     },
   ],

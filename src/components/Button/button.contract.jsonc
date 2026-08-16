@@ -1,0 +1,74 @@
+{
+  // Read from the Figma node in the Airtable row, through the Dev Mode MCP
+  // server: 3 variants x 2 sizes x 5 states, thirty symbols, which is thirty
+  // test cases QA owes for this component.
+  "id": "button",
+  "name": "Button",
+  "props": {
+    "children": "ReactNode, required. The label, and the accessible name.",
+    "variant": "'primary' | 'secondary' | 'ghost', default 'primary'",
+    "size": "'md' | 'lg', default 'md'",
+    "loading": "boolean, default false. Stays focusable, stops taking clicks.",
+    "disabled": "boolean, default false. Leaves the tab order, as a disabled control does.",
+    "trailingIcon": "ReactNode, optional. Something 16px square after the label, hidden from screen readers.",
+    "type": "'button' | 'submit' | 'reset', default 'button'",
+    "className": "string, appended to the component's own classes",
+  },
+  // Where this deliberately reads differently from the design, and why. Check
+  // 1 compares the contract to the node, so anything here that is not written
+  // down comes back as drift on every run until somebody writes it down.
+  "translations": {
+    "children": "The design calls it Label. Same thing, and in React the label of a button is its child.",
+    "trailingIcon": "The design says this with two properties, Show trailing and Icon, because a design tool cannot say a slot is optional. Code says it by leaving the value out, so the two become one. The design defaults Show trailing to true so the slot is visible while designing. Code defaults to no icon, because a library cannot ship a placeholder.",
+  },
+  "deviations": {
+    "line-strong": "The design binds the secondary border to line-color, #e0ebf5, which is 1.24:1 against the page and fails WCAG 1.4.11. The code uses line-strong, #5f8fb2, measured at 3.47:1 against the page and 3.03:1 against the hover fill. The design file is the one that should change.",
+  },
+  "variants": ["primary", "secondary", "ghost"],
+  "sizes": ["md", "lg"],
+  "states": ["default", "hover", "focus", "disabled", "loading"],
+  "tokens": [
+    "accent-ink",
+    "accent-ink-deep",
+    "accent-soft",
+    "surface-card",
+    "line-strong",
+    "text-on-accent",
+    "disabled-surface",
+    "disabled-text",
+    "focus-ring",
+    "shadow-button",
+    "space-2",
+    "space-3",
+    "space-4",
+    "space-5",
+    "space-6",
+    "control-height-md",
+    "control-height-lg",
+    "icon-size",
+    "radius-pill",
+    "font-action",
+    "text-sm",
+    "text-lead",
+    "font-weight-bold",
+    "line-height-action",
+    "letter-spacing-action",
+    "border-width",
+    "duration-fast",
+    "duration-medium",
+    "easing",
+  ],
+  "a11y": {
+    "role": "button",
+    "focusOrder": "One stop, in document order. Loading keeps its stop; disabled leaves the tab order, which is what disabled means. The focus ring shows on :focus-visible only, so a mouse press does not light up a ring nobody asked for.",
+    "contrast": "AA",
+    "trailingIcon": "Hidden from screen readers. The label already names the button, so an arrow announced after it adds a word and no meaning. It is decoration here, never the only content: a button whose whole content is an icon has no accessible name, and that is a different component.",
+  },
+  "usage": {
+    "whenToUse": "For an action the person takes on this page: sending, saving, opening a dialog. Primary for the one thing the page is for, secondary beside it, ghost where a button would otherwise shout.",
+    "whenNot": "For going somewhere. That is a link, and a link is what a person expects to be able to open in a new tab. Do not use more than one primary in a single view.",
+  },
+  "storybookId": "ui-button--primary",
+  "astroDocsUrl": "https://chawsuhlaing2209.github.io/sunim-ds/components/button",
+  "version": "0.1.0",
+}
